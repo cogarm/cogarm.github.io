@@ -6,7 +6,7 @@ module.exports = {
     description: `Seoul-based developer with interests in web development, AI, and interactive mashup services.`,
     author: `Soyeon`,
     github: `https://github.com/cogarm`,
-    linkedin: `https://www.linkedin.com`, // 원하면 실제 주소로 교체해줘
+    linkedin: `https://www.linkedin.com`, 
 
     // About Me Section
     about: `컴퓨터공학 전공으로 웹 개발과 AI 프로젝트를 중심으로 공부하고 있습니다.`,
