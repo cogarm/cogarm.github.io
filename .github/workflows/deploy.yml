@@ -1,17 +1,17 @@
 name: Build and Deploy
 
-env:
-  CI: false
-  GITHUB_USERNAME: ${{ github.repository_owner }}
-  REACT_APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  USE_GITHUB_DATA: "true"
-  MEDIUM_USERNAME: "saadpasta"
-
 on:
   push:
     branches:
       - master
   workflow_dispatch:
+
+env:
+  CI: false
+  GITHUB_USERNAME: ${{ github.repository_owner }}
+  REACT_APP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  USE_GITHUB_DATA: "true"
+  MEDIUM_USERNAME: ""   # ← 비워두기 (Medium 에러 방지)
 
 jobs:
   build-and-deploy:
@@ -28,14 +28,20 @@ jobs:
         with:
           node-version: 18.x
 
-      - name: Install and Build 🔧
-        run: |
-          npm install
-          npm run build
+      # ❌ npm@latest 설치 금지 (Node 18과 충돌)
+      # - name: Update npm 🚀
+      #   run: npm install -g npm@latest
+
+      - name: Install dependencies 🔧
+        run: npm install
+
+      - name: Build project 🏗️
+        run: npm run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: master       # 🔴 User Pages는 master/main
+          FOLDER: build
+          CLEAN: true
